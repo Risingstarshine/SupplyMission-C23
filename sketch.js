@@ -26,7 +26,7 @@ function setup() {
 	packageSprite.scale=0.2; 
 
 	var packageBody_options = {
-		isStatic: true
+		isStatic: false
 	}
 
 	stick1 = createSprite(width/2, 650, 200, 20);
@@ -55,7 +55,7 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:3, isStatic:true});
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 	
 	
@@ -82,28 +82,24 @@ function draw() {
 }
 
 
-function Pressed() {
- if (keyPressed(DOWN_ARROW)) {
+function keyPressed() {
+ if (keyCode === LEFT_ARROW) {
     // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
     
-	var packageBody_options = {
-		isStatic: false
+	helicopterSprite.x = helicopterSprite.x-20;
+	translation = {x:-20, y:0}
+    Matter.Body.translate(packageBody, translate)
+}
+    else
+	if(keyCode === RIGHT_ARROW) {
+        helicopterSprite.x = helicopterSprite.x + 20; 
+		translation = {x:20, y:0}
+		Matter.Body.translate(packageBody, translation) 
 	}
-
-	packageBody.velocityY = 2;
-     
-	 var packageBody_options = {
-        restitution: 3
-	 }
-
-     if (restitution * 3) {
-		var packageBody_options = {
-			isStatic: false
+	    else 
+		if(keyCode === DOWN_ARROW) {
+			Matter.Body.setStatic(packageBody, false);
 		}
-	 }
-
-	}
-
 
 }
 
